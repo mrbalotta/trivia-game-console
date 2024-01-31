@@ -2,7 +2,7 @@
 
 Funcionalidade: iniciar partida
 
-    Esquema do Cenário: início bem-sucedido
+    Cenário: início bem-sucedido
         Dado que eu estou na tela de início
         E eu escolhi os temas da partida
         E eu escolhi a quantidade de questões da partida

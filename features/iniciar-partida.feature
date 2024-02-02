@@ -17,7 +17,7 @@ Funcionalidade: iniciar partida
 
     Cenário: início bem-sucedido para modo de dificuldade "Difícil"
         Dado que eu escolhi os temas da partida
-        E o modo de dificuldade da partida escolhido não é "Difícil"
+        E o modo de dificuldade da partida escolhido é "Difícil"
         Quando eu iniciar a partida
         Então eu devo poder ver a primeira questão que atenda aos critérios escolhidos
         E a escolha dessa questão pelo sistema deve ser aleatória

@@ -15,7 +15,7 @@ Funcionalidade: iniciar partida
         E eu devo poder pular a questão
         E eu devo poder pedir uma dica
 
-    Cenário: início bem-sucedido para modo "Difícil"
+    Cenário: início bem-sucedido para modo de dificuldade "Difícil"
         Dado que eu escolhi os temas da partida
         E o modo de dificuldade da partida escolhido não é "Difícil"
         Quando eu iniciar a partida

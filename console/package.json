@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest --verbose ./tests",
-    "build": "npm run build:types && npm run build:js",
+    "build": "rimraf -rf ./dist && npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly -p tsconfig.build.json",
     "build:js": "babel src --out-dir dist --extensions \".ts,.tsx,.js\" --source-maps inline"
   },
@@ -22,5 +22,8 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "rimraf": "^5.0.5"
   }
 }

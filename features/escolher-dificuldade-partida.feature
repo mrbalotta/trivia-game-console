@@ -2,6 +2,8 @@
 
 Funcionalidade: escolher dificuldade da partida
 
+    Regra: a dificuldade padrão deve ser a "Fácil"
+
     Esquema do Cenário: escolha bem-sucedida
         Dado que eu estou na tela de início
         Quando eu selecionar a dificuldade <dificuldade>

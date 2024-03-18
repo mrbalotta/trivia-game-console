@@ -1,35 +1,22 @@
 import 'reflect-metadata'
 
 
-export function Field(constructor?: Constructor) {
-    return (instance: any, propertyKey: string) => {
-        if(constructor) Reflect.defineMetadata('design:explicitType', constructor, instance, propertyKey)
-    }
+export interface FieldParams {
+    type?: Constructor 
+    transform?: (value: string) => any 
+    alias?: string
+    exclude?: boolean
 }
 
-type Function = ((value: any) => any)
-
-
-export function toJson(value: any) {
-    let plain: Indexable = {}
-    for(let key in value) {
-        const property = Reflect.getMetadata('design:plainProperty', value, key) ?? key
-        plain[property] = value[key]
-    }
-
-    return JSON.stringify(plain)
-}
-
-export function Alias(value: string) {
+export function Field(param?: FieldParams) {
     return (instance: any, propertyKey: string) => {
-        Reflect.defineMetadata('design:dataProperty', propertyKey, instance, value)
-        Reflect.defineMetadata('design:plainProperty', value, instance, propertyKey)
-    }
-}
-
-export function Transform(factory: Function) {
-    return (instance: any, propertyKey: string) => {
-        Reflect.defineMetadata('design:transformType', factory, instance, propertyKey)
+        if(param?.exclude) Reflect.defineMetadata('design:excludeProperty', param!!.exclude, instance, propertyKey)
+        if(param?.type) Reflect.defineMetadata('design:explicitType', param!!.type, instance, propertyKey)
+        if(param?.transform) Reflect.defineMetadata('design:transformType', param!!.transform, instance, propertyKey)
+        if(param?.alias) {
+            Reflect.defineMetadata('design:dataProperty', propertyKey, instance, param!!.alias)
+            Reflect.defineMetadata('design:plainProperty', param!!.alias, instance, propertyKey)
+        }
     }
 }
 
@@ -47,7 +34,7 @@ export function Model<T extends Constructor>(constructor: T) {
             }
         }
 
-        getTransformType(property: Extract<keyof T, string> | string): Function | undefined {
+        getTransformType(property: Extract<keyof T, string> | string): Fn | undefined {
             return Reflect.getMetadata('design:transformType', this, property)
         }
 
@@ -87,4 +74,18 @@ export function Model<T extends Constructor>(constructor: T) {
             }      
         }
     }
+}
+
+
+export function toJson(value: any) {
+    let plain: Indexable = {}
+    for(let key in value) {
+        const exclude = Reflect.getMetadata('design:excludeProperty', value, key) ?? false
+        if(!exclude) {
+            const property = Reflect.getMetadata('design:plainProperty', value, key) ?? key
+            plain[property] = value[key]
+        }
+    }
+
+    return JSON.stringify(plain)
 }

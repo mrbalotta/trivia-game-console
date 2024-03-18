@@ -1,4 +1,4 @@
-import { Alias, Model, Transform, Field } from "./decorators"
+import { Model, Field } from "./decorators"
 import { DateTime } from "luxon";
 
 
@@ -20,17 +20,23 @@ export class Permissions {
 
 @Model
 export class User {
+
+    @Field({ exclude: true })
+    public readonly qualification?: string
+
+    @Field({ alias: "nickname" })
     public readonly name?: string
 
     @Field()
     public readonly permissions?: Permissions
 
-    @Field(Address)
-    @Alias("addresses")
+    @Field({ type: Address, alias: "addresses" })
     private readonly _addresses?: Address[]
 
-    @Transform((date: string) => DateTime.fromFormat(date, "dd/MM/yyyy").toJSDate())
-    @Alias("birthday")
+    @Field({ 
+        transform: (date: string) => DateTime.fromFormat(date, "dd/MM/yyyy").toJSDate(), 
+        alias: "birthday" 
+    })
     public readonly birthdate?: Date
 
     hasWritePermission() {

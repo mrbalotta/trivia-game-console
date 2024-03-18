@@ -10,6 +10,7 @@ import { toJson } from './decorators'
 
     const userJson = {
         name: "Alessandro",
+        qualification: 'expert engineer',
         birthday: '22/11/1988',
         permissions: {
             write: true
@@ -24,6 +25,7 @@ import { toJson } from './decorators'
 
     console.log(
         `${user.name}\n`,
+        `${user.qualification ?? "no qualification"}\n`,
         `is addresses[0] type of Address? ${user.addresses[0] instanceof Address}\n`,
         `is addresses[0] main? ${user.addresses[0].isMain()}\n`,
         `is permissions type of Permissions? ${user.permissions instanceof Permissions}\n`,
